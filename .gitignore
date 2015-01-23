@@ -15,7 +15,6 @@ install_manifest.txt
 # Simulink Code Generation
 slprj/
 
-
 # media files
 *.png
 *.jpg
