@@ -14,3 +14,9 @@ install_manifest.txt
 *.mex*
 # Simulink Code Generation
 slprj/
+
+# media files
+*.png
+*.jpg
+*.mp4
+*.mkv
