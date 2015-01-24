@@ -1,9 +1,9 @@
 # Cmake files
-CMakeCache.txt
-CMakeFiles
-Makefile
-cmake_install.cmake
-install_manifest.txt
+path-detector/CMakeCache.txt
+path-detector/CMakeFiles
+path-detector/Makefile
+path-detector/cmake_install.cmake
+path-detector/install_manifest.txt
 
 # Matlab files
 # Windows default autosave extension
@@ -20,3 +20,4 @@ slprj/
 *.jpg
 *.mp4
 *.mkv
+*.seq
