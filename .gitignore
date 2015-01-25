@@ -5,6 +5,9 @@ path-detector/Makefile
 path-detector/cmake_install.cmake
 path-detector/install_manifest.txt
 
+#binaries
+path-detector/bin/*
+
 # Matlab files
 # Windows default autosave extension
 *.asv
