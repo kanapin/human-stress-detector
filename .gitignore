@@ -20,6 +20,7 @@ VideoCapture/bin/*
 *.asv
 # OSX / *nix default autosave extension
 *.m~
+*.txt~
 # Compiled MEX binaries (all platforms)
 *.mex*
 # Simulink Code Generation
