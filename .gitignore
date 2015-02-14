@@ -5,8 +5,15 @@ path-detector/Makefile
 path-detector/cmake_install.cmake
 path-detector/install_manifest.txt
 
+VideoCapture/CMakeCache.txt
+VideoCapture/CMakeFiles
+VideoCapture/Makefile
+VideoCapture/cmake_install.cmake
+VideoCapture/install_manifest.txt
+
 #binaries
 path-detector/bin/*
+VideoCapture/bin/*
 
 # Matlab files
 # Windows default autosave extension
@@ -24,3 +31,4 @@ slprj/
 *.mp4
 *.mkv
 *.seq
+*.mov
