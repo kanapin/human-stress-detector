@@ -22,7 +22,7 @@ string createOutputFilename(const string& s) {
     }
 }
 
-deque< vector<Rect> > traceRect;
+
 char buff[81];
 
 
@@ -90,7 +90,7 @@ int main (int argc, const char * argv[])
     }
 
  
-    Mat full_img;
+    Mat full_img, img;
     HOGDescriptor hog;
     hog.setSVMDetector(HOGDescriptor::getDefaultPeopleDetector());
  
@@ -114,8 +114,8 @@ int main (int argc, const char * argv[])
         else if (f >= frameTo )
             break;
         
- 
-        Mat img(full_img, window);
+        img = Mat(full_img, window);
+        
 
         vector<Rect> found, found_filtered;
         hog.detectMultiScale(img, found, 0, Size(8,8), Size(32,32), 1.05, 2);
@@ -133,7 +133,7 @@ int main (int argc, const char * argv[])
         vector<Rect> currentFrameRectangles;
 
         //rectangleDataFile << "frame: " << f << '\n';
-
+        Rect largest(0, 0, 0, 0);
         for (i=0; i<found_filtered.size(); i++)
         {
     	    Rect r = found_filtered[i];
@@ -141,43 +141,25 @@ int main (int argc, const char * argv[])
     	    r.width = cvRound(r.width*0.65);
     	    r.y += cvRound(r.height*0.1);
     	    r.height = cvRound(r.height*0.3);
-    	    
-            Point_<int> center(r.x + r.width / 2, r.y + r.height / 2);
-            int wasPresent = 0;
-            for (deque< vector<Rect> >::iterator it = traceRect.begin() ; it != traceRect.end(); it ++) {
-                const vector<Rect>& v = *it;
-                int was = 0;
-                for (j = 0 ; j < v.size() ; j++) {
-                    if (center.inside(v[j])) {
-                        was = 1;
-                        break;
-                    }
-                }
-                wasPresent += was;
-            }
-            if (traceRect.size() < MAX_DEQUE_SIZE || wasPresent >= MAX_DEQUE_SIZE / 2 + 1) {
-                if (!saveFrames)
-                    rectangle(img, r.tl(), r.br(), cv::Scalar(0,255,0), 2);
-                currentFrameRectangles.push_back(r);
-            }
+    	    if (largest.width * largest.height < r.width * r.height)
+                largest = r;
+            
 
         }
-        //rectangleDataFile << "size: " << currentFrameRectangles.size() << '\n';
-        for (i = 0 ; i < currentFrameRectangles.size() ; i++) {
-            const Rect r = currentFrameRectangles[i];
-            rectangleDataFile << '[' << (r.x + window.x) << ' ' << (r.y + window.y) << ' ' << r.width << ' ' << r.height << "]\n";
-        }
-        
-        traceRect.push_back(currentFrameRectangles);
-        if (traceRect.size() > MAX_DEQUE_SIZE)
-            traceRect.pop_front();
-        
+        largest.x += window.x;
+        largest.y += window.y;
+        rectangleDataFile << '[' << largest.x  << ' ' << largest.y  << ' ' << 
+            largest.width << ' ' << largest.height << "]\n";
 
-        writer << img;
         if (saveFrames) {
             sprintf(buff, "frames/%06d.png", f);
             imwrite(buff, full_img);
         }
+        
+        rectangle(full_img, largest.tl(), largest.br(), cv::Scalar(0,255,0), 2);
+
+        writer << full_img;
+        
         imshow("video capture", full_img);
         if (waitKey(20) >= 0)
             break;

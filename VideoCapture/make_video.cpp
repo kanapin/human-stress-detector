@@ -35,19 +35,16 @@ int main (int argc, const char * argv[])
     VideoWriter writer;
     string outputFileName(argv[7]);
     cout << "Saving to " << outputFileName << endl;
-
-    writer.open(outputFileName, CV_FOURCC('P','I','M','1'), fps, S, true);
-
+    // TODO: fix FPS val
+    writer.open(outputFileName, CV_FOURCC('P','I','M','1'), 24, S, true);
  
-    Mat full_img;
-
-    for (int f = from ; f < to ; f ++)
+    Mat full_img, *prev = NULL;
+    for (int f = from ; f < to ; f++)
     {
         sprintf(buff, "%s/%06d.png", folderName.c_str(), f);
         full_img = imread(buff);
-
         writer << full_img;
-        
+        cout << "here\n";
         
             
     }
