@@ -33,3 +33,7 @@ slprj/
 *.mkv
 *.seq
 *.mov
+*.MOV
+
+#Archives
+*.zip
