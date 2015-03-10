@@ -11,9 +11,23 @@ VideoCapture/Makefile
 VideoCapture/cmake_install.cmake
 VideoCapture/install_manifest.txt
 
+VideoConverter/CMakeCache.txt
+VideoConverter/CMakeFiles
+VideoConverter/Makefile
+VideoConverter/cmake_install.cmake
+VideoConverter/install_manifest.txt
+
+*/CMakeCache.txt
+*/CMakeFiles
+*/Makefile
+*/cmake_install.cmake
+*/install_manifest.txt
+
+
 #binaries
 path-detector/bin/*
 VideoCapture/bin/*
+*/bin/*
 
 # Matlab files
 # Windows default autosave extension
@@ -34,6 +48,7 @@ slprj/
 *.seq
 *.mov
 *.MOV
+*.avi
 
 #Archives
 *.zip
