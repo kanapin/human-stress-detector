@@ -27,6 +27,7 @@ char buff[81];
 
 
 
+
 int main (int argc, const char * argv[])
 {
     if (argc < 8) {
@@ -156,8 +157,7 @@ int main (int argc, const char * argv[])
                 wasPresent += was;
             }
             if (traceRect.size() < MAX_DEQUE_SIZE || wasPresent >= MAX_DEQUE_SIZE / 2 + 1) {
-                if (!saveFrames)
-                    rectangle(img, r.tl(), r.br(), cv::Scalar(0,255,0), 2);
+                rectangle(img, r.tl(), r.br(), cv::Scalar(0,255,0), 2);
                 currentFrameRectangles.push_back(r);
             }
 
