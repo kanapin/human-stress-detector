@@ -1,5 +1,6 @@
 pathToVideo = '/home/nurlan/Dropbox/dataset/3_sec.avi';
-outputPath = '/home/nurlan/Dropbox/dataset/3_sec_proc.avi';
+outputPath = '/home/nurlan/Dropbox/dataset/3_all_proc.avi';
+
 videoReader = VideoReader(pathToVideo);
 %mov = struct('cdata',zeros(vidHeight,vidWidth,3,'uint8'),'colormap',[]);
 numberOfFrames = videoReader.NumberOfFrames;
@@ -11,12 +12,15 @@ writerObj = VideoWriter(outputPath);
 writerObj.FrameRate = 10;
 open(writerObj);
 
+csvFile = fopen('sticks.csv', 'wt');
+formatString = repmat('%f,', 1, 4);
+formatString = [formatString(1:end-1), '\n'];
 
 for k = 1 : numberOfFrames
     frame = read(videoReader, k);
     [bboxes,scores] = step(peopleDetector, frame);
     processedFrame = false;
-    if numel(bboxes) > 0 && mod(k,5) == 1
+    if numel(bboxes) > 0 %&& k < 3%mod(k,1000) == 1
         display(k);
         x = bboxes(1);
         y = bboxes(2);
@@ -27,10 +31,17 @@ for k = 1 : numberOfFrames
         y = y + int32(h*0.1);
         h = int32(h*0.3);
         bboxes = double([x y w h]);
-        imwrite(frame, sprintf('/home/nurlan/Developer/human-stress-detector/pose_estimation_code_release_v1.22/example_data/images/%02d.png', k)); 
+        imwrite(frame, sprintf([pwd '/example_data/images/%02d.png'], k)); 
         pause(1);
-        [T sticks_imgcoor] = PoseEstimStillImage(pwd, 'images', '%02d.png', k, 'full', bboxes', fghigh_params, parse_params_Buffy3and4andPascal, [], pm2segms_params, true);
-        processedFrame = imread(sprintf('/home/nurlan/Developer/human-stress-detector/pose_estimation_code_release_v1.22/example_data/segms_full/%02d.png', k));
+        [T sticks_imgcoor] = PoseEstimStillImage(pwd, 'example_data/images', '%02d.png', k, 'full', bboxes', fghigh_params, parse_params_Buffy3and4andPascal, [], pm2segms_params, true);
+        for i1 = 1 : 10
+            fprintf(csvFile, formatString, sticks_imgcoor(:, i1));
+        end
+        processedFrame = imread(sprintf([pwd '/segms_full/%02d.png'], k));
+        delete(sprintf([pwd '/example_data/images/%02d.png'], k));
+        delete(sprintf([pwd '/poses_full/%02d.png'], k));
+        delete(sprintf([pwd '/segms_full/%02d.png'], k));
+        delete(sprintf([pwd '/fghigh_full/%02d.png'], k));
         frame = insertObjectAnnotation(frame,'rectangle',bboxes,scores);
     end
     if ~islogical(processedFrame)
@@ -45,4 +56,5 @@ for k = 1 : numberOfFrames
     %w = waitforbuttonpress;
 end
 %release(videoReader);
+fclose(csvFile);
 close(writerObj);
