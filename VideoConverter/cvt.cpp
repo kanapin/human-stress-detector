@@ -32,18 +32,24 @@ int main (int argc, const char * argv[])
     from = (int)(f1 * fps);
     to = (int)(f2 * fps);
     cout << "FPS = " << fps << endl;
+    int w = 640, h = 360;
+    if (argc >= 8) {
+        sscanf(argv[6], "%d", &w);
+        sscanf(argv[7], "%d", &h);
+    }
 
     VideoCapture cap(inputFileName);
-    cap.set(CV_CAP_PROP_FRAME_WIDTH, 640);
-    cap.set(CV_CAP_PROP_FRAME_HEIGHT, 360);    
+    cap.set(CV_CAP_PROP_FRAME_WIDTH, w);
+    cap.set(CV_CAP_PROP_FRAME_HEIGHT, h);    
 
 
     Size S = Size((int) cap.get(CV_CAP_PROP_FRAME_WIDTH),    // Acquire input size
                   (int) cap.get(CV_CAP_PROP_FRAME_HEIGHT));
 
-    S = Size(640, 360);
+    S = Size(w, h);
 
     cout << "Size " << S << endl;
+    cout << from << ' ' << to << endl;
 
     VideoWriter writer;
     
@@ -84,7 +90,7 @@ int main (int argc, const char * argv[])
         }
         //cout << img.cols << ' ' << img.rows << endl;
         //imshow( "Display window", img ); 
-        resize(img, img, Size(640, 360), 0, 0, INTER_CUBIC);
+        resize(img, img, Size(w, h), 0, 0, INTER_CUBIC);
         writer << img;
         //waitKey(0);
             
