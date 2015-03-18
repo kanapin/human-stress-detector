@@ -76,6 +76,7 @@ int main (int argc, const char * argv[])
     
     for (int f = 0 ;  ; f ++)
     {
+	
         
         cap >> img;
         if (f < from) {
@@ -84,6 +85,7 @@ int main (int argc, const char * argv[])
         else if (f >= to) {
             break;
         }
+	cout << "f = " << f << endl;
         if (!img.data) {
             cerr << "Frame " << f << " is skipped" << endl;
             break;
@@ -96,6 +98,5 @@ int main (int argc, const char * argv[])
             
     }
     cap.release();
-    
     return 0;
 }
