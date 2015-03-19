@@ -90,8 +90,8 @@ int main (int argc, const char * argv[])
             cerr << "Frame " << f << " is skipped" << endl;
             break;
         }
-        //cout << img.cols << ' ' << img.rows << endl;
-        //imshow( "Display window", img ); 
+        cout << img.cols << ' ' << img.rows << endl;
+        imshow( "Display window", img ); 
         resize(img, img, Size(w, h), 0, 0, INTER_CUBIC);
         writer << img;
         //waitKey(0);
